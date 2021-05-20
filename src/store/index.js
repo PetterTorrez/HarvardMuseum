@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import dummyReducer from '../reducers/dummyReducer';
+import photoFullScreenReducer from '../reducers/photoFullScreenReducer';
 
 const rootReducer = combineReducers({
-  dummy: dummyReducer,
+  photoFullScreen: photoFullScreenReducer,
 });
 
 export default createStore(rootReducer);
