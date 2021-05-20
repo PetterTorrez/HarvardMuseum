@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { dummyAction } from './actions/dummy';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import GalleryScreen from './screens/GalleryScreen';
 
-class AppRouter extends Component {
-  constructor(props) {
-    super(props);
+const Stack = createStackNavigator();
 
-    props.dummyAction();
-  }
+const AppRouter = () => (
+  <NavigationContainer>
+    <StatusBar backgroundColor="transparent" barStyle="light-content" />
 
-  render() {
-    return (
-      <View>
-        <Text>
-          {'React Native'}
-        </Text>
-      </View>
-    );
-  }
-}
+    <Stack.Navigator
+      initialRouteName={'Gallery'}>
+      <Stack.Screen
+        component={GalleryScreen} header
+        name="Gallery"
+        options={{ headerTitle: 'Harvard Museum' }}
+      />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
-function mapStateToProps({ dummy }) {
-  const { dummyData } = dummy;
-
-  return { dummyData };
-}
-
-export default connect(mapStateToProps, {
-  dummyAction,
-})(AppRouter);
+export default AppRouter;
