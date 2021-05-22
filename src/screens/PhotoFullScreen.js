@@ -1,22 +1,19 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
 
-class PhotoFullScreen extends PureComponent {
-  render() {
-    if (!this.props.isShowingPhoto) {
-      return null;
-    }
-
-    return (
-      <View style={styles.container}>
-        <Text>
-          {'Photo Full Screen'}
-        </Text>
-      </View>
-    );
+const PhotoFullScreen = () => {
+  // luego veo como validar
+  if (true) {
+    return null;
   }
-}
+  return (
+    <View style={styles.container}>
+      <Text>
+        {'Photo Full Screen'}
+      </Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
