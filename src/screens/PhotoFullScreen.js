@@ -32,10 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ photoFullScreen }) {
-  const { isShowingPhoto } = photoFullScreen;
-
-  return { isShowingPhoto };
-}
-
-export default connect(mapStateToProps)(PhotoFullScreen);
+export default PhotoFullScreen;
