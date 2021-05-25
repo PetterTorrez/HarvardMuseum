@@ -5,7 +5,10 @@ import { GALLERIES_LOADED } from './types';
 export function getGallery(page) {
   return async () => {
     let response = [];
-    const payload = await apiCall({ resource: 'image', params: { page, size: 20 } });
+    const payload = await apiCall({
+      resource: 'image',
+      params: { page, size: 30, sort: 'id', sortorder: 'asc' },
+    });
 
     if (payload.info && payload.records) {
       response = payload.records;
