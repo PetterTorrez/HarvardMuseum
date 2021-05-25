@@ -7,8 +7,7 @@ const initialState = {
   galleryData: [],
 };
 
-export default function (state = initialState, action) {
-  console.log(action.type);
+function gallery(state = initialState, action) {
   switch (action.type) {
     case GALLERIES_LOADED:
       return { ...state, galleryData: [...state.galleryData, ...action.data] };
@@ -21,3 +20,5 @@ export default function (state = initialState, action) {
     }
   }
 }
+
+export default gallery;

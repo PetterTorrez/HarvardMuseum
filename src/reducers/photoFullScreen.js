@@ -2,16 +2,17 @@ import { PHOTO_VISIBILITY_CHANGED } from '../actions/types';
 
 const initialState = {
   isShowingPhoto: false,
+  gallery: null,
 };
 
-function photoFullScreenReducer(state = initialState, action) {
+function photoFullScreen(state = initialState, action) {
   switch (action.type) {
     case PHOTO_VISIBILITY_CHANGED:
-      return { ...state, isShowingPhoto: action.visibility };
+      return { ...state, isShowingPhoto: action.visibility, gallery: action.gallery };
 
     default:
       return state;
   }
 }
 
-export default photoFullScreenReducer;
+export default photoFullScreen;
