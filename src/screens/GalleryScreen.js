@@ -3,7 +3,7 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import GalleryItem from '../components/GalleryItem';
+import GalleryListItem from '../components/GalleryListItem';
 import { getGallery } from '../redux/galleryRedux';
 
 const GalleryScreen = () => {
@@ -48,10 +48,10 @@ const GalleryScreen = () => {
       data={galleries}
       keyExtractor={keyExtractor}
       onEndReached={handleMoreGalleries}
-      onEndReachedThreshold={1}
+      onEndReachedThreshold={3}
       onRefresh={refreshData}
       refreshing={isRefreshing}
-      renderItem={({ item }) => <GalleryItem data={item} />}
+      renderItem={({ item }) => <GalleryListItem data={item} />}
       contentContainerStyle={styles.container}
     />
   );
