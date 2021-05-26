@@ -3,12 +3,17 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import GalleryListItem from '../components/GalleryListItem';
-import { getGallery } from '../redux/galleryRedux';
+import { showPhoto } from '../actions/photoFullScreen';
+import { clearGalleries, getGallery, setGalleries } from '../actions/gallery';
 
 const GalleryScreen = () => {
+  const { galleryData } = useSelector((state) => state.gallery);
+  const dispatch = useDispatch();
+  const setPhotoVisibility = (data) => dispatch(showPhoto(data));
+
   const [isRefreshing, changeRefreshingStatus] = useState(false);
-  const [galleries, setGalleries] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [isCalling, setIsCalling] = useState(false);
   const [callFlag, changeCallFlag] = useState(false);
@@ -17,7 +22,7 @@ const GalleryScreen = () => {
 
   const handlerGetCallery = async () => {
     const response = await getGallery(pageNumber)();
-    setGalleries((prevState) => (isRefreshing ? response : prevState.concat(response)));
+    dispatch(setGalleries(response));
 
     setIsCalling(false);
     changeRefreshingStatus(false);
@@ -26,7 +31,7 @@ const GalleryScreen = () => {
   const keyExtractor = (item, index) => item.id + String(index);
 
   const handleMoreGalleries = () => {
-    if (!isCalling && galleries.length > 0) {
+    if (!isCalling && galleryData.length > 0) {
       setIsCalling(true);
       setPageNumber((prevState) => prevState + 1);
     }
@@ -37,7 +42,7 @@ const GalleryScreen = () => {
       changeCallFlag((prevState) => !prevState);
     }
 
-    setGalleries([]);
+    dispatch(clearGalleries());
     changeRefreshingStatus(true);
     setIsCalling(true);
     setPageNumber(0);
@@ -45,13 +50,13 @@ const GalleryScreen = () => {
 
   return (
     <FlatList
-      data={galleries}
+      data={galleryData}
       keyExtractor={keyExtractor}
       onEndReached={handleMoreGalleries}
       onEndReachedThreshold={3}
       onRefresh={refreshData}
       refreshing={isRefreshing}
-      renderItem={({ item }) => <GalleryListItem data={item} />}
+      renderItem={({ item }) => <GalleryListItem data={item} action={setPhotoVisibility} />}
       contentContainerStyle={styles.container}
     />
   );
