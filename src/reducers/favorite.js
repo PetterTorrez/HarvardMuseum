@@ -9,7 +9,6 @@ const initialState = {
 function favorite(state = initialState, action) {
   switch (action.type) {
     case FAVORITE_UPDATED: {
-      console.log(action);
       const favoriteFound = state.favorites.some((item) => item.id === action.data.id);
       if (favoriteFound) {
         return {
