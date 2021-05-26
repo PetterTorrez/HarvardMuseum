@@ -23,7 +23,6 @@ DerivedData
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
@@ -58,6 +57,5 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
-/ios/Pods/
-/ios/Podfile.lock
-
+ios/Pods/
+ios/Podfile.lock
