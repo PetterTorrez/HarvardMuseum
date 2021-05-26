@@ -3,6 +3,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -48,13 +49,14 @@ function GalleryListItem({ data, action }) {
           </View>
         </View>
 
-        <TouchableWithoutFeedback
+        <TouchableOpacity
+          activeOpacity={0.5}
           onPress={() => dispatch(updateFavoriteStatus(data))}
           style={styles.imageContainer}>
           <View>
             <FavoriteButton isFavorite={isFavorite} />
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
 
       <TouchableWithoutFeedback
@@ -80,8 +82,7 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    backgroundColor: 'red',
-    flex: 1,
+    alignItems: 'flex-end',
   },
 
   itemContainer: {
