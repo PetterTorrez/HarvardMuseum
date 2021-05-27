@@ -18,7 +18,7 @@ const screenText = {
   noDate: '(No date)',
 };
 
-function GalleryListItem({ data, action }) {
+const GalleryListItem = ({ data, action }) => {
   const { favorites } = useSelector((state) => state.favorite);
   const dispatch = useDispatch();
 
@@ -67,7 +67,7 @@ function GalleryListItem({ data, action }) {
       </TouchableWithoutFeedback>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -87,8 +87,6 @@ const styles = StyleSheet.create({
 
   itemContainer: {
     backgroundColor: 'white',
-    borderBottomWidth: hp('3%'),
-    borderBottomColor: '#ddd',
     flex: 1,
     height: hp('60%'),
     paddingVertical: hp('3%'),

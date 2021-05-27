@@ -9,7 +9,12 @@ export function getGallery(page) {
     let response = [];
     const payload = await apiCall({
       resource: 'image',
-      params: { page, size: 30, sort: 'id', sortorder: 'asc' },
+      params: {
+        page,
+        size: 30,
+        sort: 'id',
+        sortorder: 'asc',
+      },
     });
 
     if (payload.info && payload.records) {
