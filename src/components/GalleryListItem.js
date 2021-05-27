@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
+  ActivityIndicator,
+  Animated,
+  Vibration,
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -12,17 +14,32 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import FavoriteButton from './FavoriteButton';
 import { updateFavoriteStatus } from '../actions/favorite';
 
+const VIBRATION_DURATION = 20;
 const screenText = {
-  date: 'Date',
-  technique: 'Technique',
+  date: 'Date :',
+  technique: 'Technique :',
   noDate: '(No date)',
 };
-
 const GalleryListItem = ({ data, action }) => {
   const { favorites } = useSelector((state) => state.favorite);
   const dispatch = useDispatch();
-
+  const favoriteAnimation = useRef(new Animated.Value(1)).current;
   const isFavorite = favorites.some((item) => item.id === data.id);
+
+  const heartAnimation = () => {
+    Animated.sequence([
+      Animated.timing(favoriteAnimation, { toValue: 1, duration: 50, useNativeDriver: true }),
+      Animated.timing(favoriteAnimation, { toValue: 1.2, duration: 75, useNativeDriver: true }),
+      Animated.timing(favoriteAnimation, { toValue: 0.8, duration: 75, useNativeDriver: true }),
+      Animated.timing(favoriteAnimation, { toValue: 1, duration: 50, useNativeDriver: true }),
+    ]).start();
+  };
+
+  const updateStatus = () => {
+    heartAnimation();
+    dispatch(updateFavoriteStatus(data));
+    Vibration.vibrate(VIBRATION_DURATION, true);
+  };
 
   return (
     <View style={styles.itemContainer}>
@@ -49,21 +66,35 @@ const GalleryListItem = ({ data, action }) => {
           </View>
         </View>
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => dispatch(updateFavoriteStatus(data))}
+        <TouchableWithoutFeedback
+          onPress={updateStatus}
           style={styles.imageContainer}>
           <View>
-            <FavoriteButton isFavorite={isFavorite} />
+            <Animated.View style={{
+              transform: [
+                { scale: favoriteAnimation },
+              ],
+            }}>
+              <FavoriteButton isFavorite={isFavorite} />
+            </Animated.View>
           </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </View>
 
       <TouchableWithoutFeedback
         onPress={() => action({ visibility: true, gallery: data })}
         style={styles.imageContainer}
       >
-        <Image source={{ uri: data.baseimageurl }} style={styles.image} />
+        <>
+          <View style={styles.loading}>
+            <ActivityIndicator size={'large'} color={'#444'} />
+          </View>
+
+          <Image
+            source={{ uri: data.baseimageurl }}
+            style={styles.image}
+          />
+        </>
       </TouchableWithoutFeedback>
     </View>
   );
@@ -73,10 +104,11 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: hp('2%'),
   },
+
   image: {
-    backgroundColor: '#000',
-    flex: 1,
+    height: hp('53%'),
     marginTop: wp('3%'),
     resizeMode: 'contain',
   },
@@ -88,21 +120,26 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: 'white',
     flex: 1,
-    height: hp('60%'),
-    paddingVertical: hp('3%'),
+    minHeight: hp('60%'),
     paddingHorizontal: wp('5%'),
   },
 
   label: {
     color: '#111',
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: 15,
     marginRight: wp('5%'),
   },
 
+  loading: {
+    position: 'absolute',
+    top: hp('33%'),
+    left: wp('45%'),
+  },
+
   value: {
     color: '#828275',
-    fontWeight: '200',
+    fontWeight: 'bold',
     fontSize: 12,
   },
 

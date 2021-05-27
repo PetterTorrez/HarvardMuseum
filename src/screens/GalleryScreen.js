@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   StyleSheet,
   Text,
@@ -12,6 +13,11 @@ import GalleryListItem from '../components/GalleryListItem';
 import { showPhoto } from '../actions/photoFullScreen';
 import { clearGalleries, getGallery, setGalleries } from '../actions/gallery';
 
+const indicatorSize = hp('6%');
+const screenText = {
+  gettingMore: 'Getting more galleries',
+};
+
 const GalleryScreen = () => {
   const dispatch = useDispatch();
   const setPhotoVisibility = (data) => dispatch(showPhoto(data));
@@ -21,6 +27,13 @@ const GalleryScreen = () => {
   const [isCalling, setIsCalling] = useState(false);
   const [callFlag, changeCallFlag] = useState(false);
   useEffect(() => handlerGetGallery(), [pageNumber, callFlag]);
+
+  const animation = useRef(new Animated.Value(0)).current;
+  Animated.timing(animation, {
+    toValue: isCalling ? 1 : 0,
+    duration: 100,
+    useNativeDriver: true,
+  }).start();
 
   const handlerGetGallery = async () => {
     const response = await getGallery(pageNumber)();
@@ -39,12 +52,26 @@ const GalleryScreen = () => {
   };
 
   const loadingIndicator = () => galleryData.length > 0 && (
-    <View style={styles.indicatorContainer}>
-      <ActivityIndicator color="#444" />
+    <View style={styles.backgroundIndicator}>
+      <Animated.View style={{
+        transform: [
+          {
+            translateY: animation.interpolate({
+              inputRange: [0.01, 1],
+              outputRange: [0, -1 * indicatorSize],
+              extrapolate: 'clamp',
+            }),
+          },
+        ],
+      }}>
+        <View style={styles.indicatorContainer}>
+          <ActivityIndicator color="#444" />
 
-      <Text style={styles.indicatorLabel}>
-        {'Getting more galleries'}
-      </Text>
+          <Text style={styles.indicatorLabel}>
+            {screenText.gettingMore}
+          </Text>
+        </View>
+      </Animated.View>
     </View>
   );
 
@@ -78,6 +105,12 @@ const GalleryScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  backgroundIndicator: {
+    backgroundColor: 'white',
+    height: indicatorSize,
+    paddingTop: indicatorSize,
+  },
+
   container: {
     backgroundColor: '#ddd',
     flexGrow: 1,
@@ -87,7 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'row',
+    paddingTop: hp('1%'),
     paddingBottom: hp('2%'),
+    height: indicatorSize,
   },
 
   indicatorLabel: {
