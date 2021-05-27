@@ -1,10 +1,12 @@
 import { createStore, combineReducers } from 'redux';
-import photoFullScreenRedux from './photoFullScreenRedux';
-import galleryRedux from './galleryRedux';
+import photoFullScreen from './photoFullScreen';
+import gallery from './gallery';
+import favorite from './favorite';
 
 const rootReducer = combineReducers({
-  photoFullScreenRedux,
-  galleryRedux,
+  favorite,
+  gallery,
+  photoFullScreen,
 });
 
 const store = createStore(rootReducer);
