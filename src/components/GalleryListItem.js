@@ -85,7 +85,7 @@ const GalleryListItem = ({ data, action }) => {
         onPress={() => action({ visibility: true, gallery: data })}
         style={styles.imageContainer}
       >
-        <>
+        <View>
           <View style={styles.loading}>
             <ActivityIndicator size={'large'} color={'#444'} />
           </View>
@@ -94,7 +94,7 @@ const GalleryListItem = ({ data, action }) => {
             source={{ uri: data.baseimageurl }}
             style={styles.image}
           />
-        </>
+        </View>
       </TouchableWithoutFeedback>
     </View>
   );
