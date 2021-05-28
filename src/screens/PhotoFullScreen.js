@@ -1,5 +1,8 @@
 import React from 'react';
+import { useBackHandler } from '@react-native-community/hooks';
 import {
+  Alert,
+  BackHandler,
   Image,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -10,10 +13,43 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { hidePhoto } from '../actions/photoFullScreen';
 import leftArrow from '../../assets/left-arrow.png';
 
+const screenText = {
+  alert: {
+    message: 'Are you sure you want to exit the Harvard Museum App?',
+    negativeOptionLabel: 'Cancel',
+    positiveOptionLabel: 'OK',
+    title: 'Hold on!',
+  },
+};
+
 const PhotoFullScreen = () => {
   const { isShowingPhoto, gallery } = useSelector((state) => state.photoFullScreen);
   const dispatch = useDispatch();
-  const hidephoto = (visibility) => dispatch(hidePhoto(visibility));
+  const hidePhotoHandler = (visibility) => dispatch(hidePhoto(visibility));
+
+  useBackHandler(() => {
+    if (isShowingPhoto) {
+      hidePhotoHandler(false);
+      return true;
+    }
+
+    Alert.alert(
+      screenText.alert.title,
+      screenText.alert.message,
+      [
+        {
+          text: screenText.alert.negativeOptionLabel,
+          onPress: () => null,
+        },
+        {
+          text: screenText.alert.positiveOptionLabel,
+          onPress: () => BackHandler.exitApp(),
+        },
+      ],
+    );
+
+    return true;
+  });
 
   if (!isShowingPhoto) {
     return null;
@@ -24,7 +60,7 @@ const PhotoFullScreen = () => {
       <Image source={{ uri: gallery.baseimageurl }} style={styles.image} />
 
       <TouchableWithoutFeedback
-        onPress={() => hidephoto(false)}
+        onPress={() => hidePhotoHandler(false)}
         style={styles.imageContainer}
       >
         <Image source={leftArrow} style={styles.leftArrow} tintColor={'white'} />
