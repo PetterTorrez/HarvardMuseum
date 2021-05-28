@@ -36,7 +36,7 @@ const PhotoFullScreen = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
     justifyContent: 'center',
     opacity: 0.95,
     position: 'absolute',

@@ -19,7 +19,7 @@ const AppRouter = () => (
         options={{
           headerTitle: 'Harvard Museum',
           headerStyle: styles.headerStyle,
-          headerTintColor: '#fff',
+          headerTintColor: 'white',
           headerTitleStyle: styles.headerTitleStyle,
         }}
       />
