@@ -27,7 +27,7 @@ const GalleryScreen = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [isCalling, setIsCalling] = useState(false);
   const [callFlag, changeCallFlag] = useState(false);
-  useEffect(() => handlerGetGallery(), [pageNumber, callFlag]);
+  useEffect(() => getGalleryHandler(), [pageNumber, callFlag]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => true);
@@ -41,7 +41,7 @@ const GalleryScreen = () => {
     useNativeDriver: true,
   }).start();
 
-  const handlerGetGallery = async () => {
+  const getGalleryHandler = async () => {
     const response = await getGallery(pageNumber)();
     dispatch(setGalleries(response));
     setIsCalling(false);
