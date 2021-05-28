@@ -3,8 +3,8 @@ import { Path, Svg } from 'react-native-svg';
 
 const colors = {
   primary: '#FF5555',
-  second: '#F40000',
-  defaultValue: '#fff',
+  second: '#F02222',
+  defaultValue: 'white',
   stroke: 'black',
 };
 

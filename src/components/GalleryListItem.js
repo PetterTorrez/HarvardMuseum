@@ -69,7 +69,7 @@ const GalleryListItem = ({ data, action }) => {
         <TouchableWithoutFeedback
           onPress={updateStatus}
           style={styles.imageContainer}>
-          <View>
+          <View style={[{ justifyContent: 'center' }, styles.container]}>
             <Animated.View style={{
               transform: [
                 { scale: favoriteAnimation },
@@ -85,7 +85,7 @@ const GalleryListItem = ({ data, action }) => {
         onPress={() => action({ visibility: true, gallery: data })}
         style={styles.imageContainer}
       >
-        <View>
+        <View style={styles.container}>
           <View style={styles.loading}>
             <ActivityIndicator size={'large'} color={'#444'} />
           </View>
@@ -101,15 +101,20 @@ const GalleryListItem = ({ data, action }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: wp('4%'),
+  },
+
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: hp('2%'),
+    paddingLeft: wp('4%'),
   },
 
   image: {
     height: hp('53%'),
-    marginTop: wp('3%'),
+    marginTop: wp('5%'),
     resizeMode: 'contain',
   },
 
@@ -121,26 +126,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     minHeight: hp('60%'),
-    paddingHorizontal: wp('5%'),
   },
 
   label: {
     color: '#111',
-    fontWeight: 'bold',
     fontSize: 15,
-    marginRight: wp('5%'),
+    fontWeight: 'bold',
+    marginRight: wp('4%'),
   },
 
   loading: {
-    position: 'absolute',
-    top: hp('33%'),
     left: wp('45%'),
+    position: 'absolute',
+    top: hp('25%'),
   },
 
   value: {
     color: '#828275',
-    fontWeight: 'bold',
     fontSize: 12,
+    fontWeight: 'bold',
   },
 
   rowContainer: {

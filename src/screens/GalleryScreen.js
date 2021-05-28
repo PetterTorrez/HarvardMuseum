@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import {
   ActivityIndicator,
   Animated,
+  BackHandler,
   FlatList,
   StyleSheet,
   Text,
@@ -27,6 +28,11 @@ const GalleryScreen = () => {
   const [isCalling, setIsCalling] = useState(false);
   const [callFlag, changeCallFlag] = useState(false);
   useEffect(() => handlerGetGallery(), [pageNumber, callFlag]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () => BackHandler.removeListener('hardwareBackPress', () => true);
+  }, []);
 
   const animation = useRef(new Animated.Value(0)).current;
   Animated.timing(animation, {
@@ -117,12 +123,12 @@ const styles = StyleSheet.create({
   },
 
   indicatorContainer: {
-    justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'row',
+    height: indicatorSize,
+    justifyContent: 'center',
     paddingTop: hp('1%'),
     paddingBottom: hp('2%'),
-    height: indicatorSize,
   },
 
   indicatorLabel: {
@@ -132,8 +138,8 @@ const styles = StyleSheet.create({
   },
 
   separator: {
-    borderBottomWidth: hp('2%'),
     borderBottomColor: '#ddd',
+    borderBottomWidth: hp('2%'),
   },
 });
 
